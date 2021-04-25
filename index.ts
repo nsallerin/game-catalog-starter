@@ -1,13 +1,10 @@
 import * as dotenv from "dotenv";
-import { MongoClient } from "mongodb";
 import { makeApp } from "./src/server";
+import { initDB } from "./src/init-database";
 
 dotenv.config();
 
-const options = { useNewUrlParser: true, useUnifiedTopology: true };
-const databaseUrl: string = process.env.MONGO_URL || "";
-
-MongoClient.connect(databaseUrl, options).then((client) => {
+initDB().then((client) => {
   const db = client.db();
   const app = makeApp(db);
 
