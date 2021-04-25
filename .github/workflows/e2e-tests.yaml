@@ -38,8 +38,18 @@ jobs:
         if: steps.yarn-cache.outputs.cache-hit != 'true'
         run: yarn install
 
+      - name: Install MongoDB
+        run: |
+          wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | apt-key add -
+          echo "deb http://repo.mongodb.org/apt/debian buster/mongodb-org/4.4 main" | tee /etc/apt/sources.list.d/mongodb-org-4.4.list
+          apt-get update
+          apt-get install -y mongodb-org-shell
+          echo 'rs.initiate()' | mongo mongodb://mongodb:${{ job.services.mongodb.ports[27017] }}
+
       - name: populate-db
         run: yarn populate-db
+        env:
+          MONGO_URL: mongodb://mongodb:${{ job.services.mongodb.ports[27017] }}/videogame-catalog
 
       - name: test
         run: yarn test:e2e

@@ -18,6 +18,7 @@
     "build": "tsc",
     "dev": "nodemon",
     "populate-db": "node src/scripts/populate-db.js",
+    "destroy-db": "node src/scripts/destroy-db.js",
     "format": "prettier --write .",
     "lint": "eslint \"{src,tests}/**/*.{js,ts,jsx,tsx}\"",
     "start": "node dist/index.js",

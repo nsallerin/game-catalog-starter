@@ -13,8 +13,14 @@ export function makeApp(db: Db): core.Express {
 
   app.set("view engine", "njk");
 
-  app.get("/", (request: Request, response: Response) => {
-    response.render("index")
+  app.get("/", async (request: Request, response: Response) => {
+    try {
+    const games = await db.collection("games").find({}).toArray()
+    response.render("index", {games})
+    } catch (error) {
+        console.log(error);
+        response.status(500).end();
+    }
   });
 
   return app;
