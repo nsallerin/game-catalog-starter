@@ -14,8 +14,6 @@ if (process.env.HEROKU_APP_NAME) {
   databaseUrl = url.toString();
 }
 
-console.log(databaseUrl)
-
 mongo.MongoClient.connect(databaseUrl, options).then((client) => {
   return client
     .db()
